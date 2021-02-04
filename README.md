@@ -5,7 +5,7 @@
 
 ## The Problem
 
-The [React documentation around using React in Web Components](https://reactjs.org/docs/web-components.html#using-react-in-your-web-components) presents a case where you can create Web Components using React, but when explored, utilizing React in Web Components presents some significant functionality issues, as detailed in [this issue](https://github.com/facebook/react/issues/9242). Namely, complex React apps rendered in Web Components lose their functionality.
+The [React documentation around using React in Web Components](https://reactjs.org/docs/web-components.html#using-react-in-your-web-components) presents a case where you can create Web Components using React, but when explored, utilizing React 16 in Web Components presents some significant functionality issues, as detailed in [this issue](https://github.com/facebook/react/issues/9242). Namely, complex React apps rendered in Web Components lose their functionality.
 
 ## The Solution
 
@@ -16,7 +16,7 @@ The [React documentation around using React in Web Components](https://reactjs.o
 To install, simply run:
 
 ```bash
-npm install --save react-html-element
+npm install --save react-html-element@react-16
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ function Incrementer(): React.ReactElement {
       <button
         id="iterate-button"
         type="button"
-        onClick={(): void => setIncrement(prevIncrement => prevIncrement + 1)}
+        onClick={(): void => setIncrement((prevIncrement) => prevIncrement + 1)}
       >
         Increment
       </button>
@@ -60,6 +60,7 @@ customElements.define('incrementer', ReactTestComponent);
 The key pieces of code are `... extends ReactHTMLElement` and `this.mountPoint`.
 
 > ### Polyfills
+>
 > One thing to remember is that you will need to load [the webcomponentsjs polyfills](https://www.webcomponents.org/polyfills) for `ReactHTMLElement` to work in all browsers. Be sure to include [the ES5 adapter](https://github.com/webcomponents/polyfills/tree/master/packages/webcomponentsjs#custom-elements-es5-adapterjs), as we currently transpile `ReactHTMLElement` down to ES5. The polyfills should be in the `<head>`, and should look something like this:
 >
 > ```html
@@ -94,9 +95,7 @@ This will allow us to utilize our Web Component as an element in any HTML:
     <script src="./path/to/incrementer.js"></script>
   </head>
   <body>
-    <h1>
-      Behold: An Incrementer
-    </h1>
+    <h1>Behold: An Incrementer</h1>
     <!-- put your web component in your html -->
     <incrementer></incrementer>
   </body>
